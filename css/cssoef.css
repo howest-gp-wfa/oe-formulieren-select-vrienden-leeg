@@ -1,0 +1,23 @@
+input {
+      margin-bottom: 15px;
+}
+
+select {
+    margin-bottom: 15px;
+}
+
+label {
+    display: inline-block;
+    width: 120px;
+}
+
+#divFeedBack {
+    color: red;
+    padding-bottom: 15px;
+    font-weight: bold;
+}
+
+
+#lblId {
+    margin-bottom: 15px;
+}
