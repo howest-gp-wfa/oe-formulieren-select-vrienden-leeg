@@ -26,6 +26,10 @@ function Initieer()
 
 /**FUNCTIONS */
 
+/**
+ * bind the elements
+ */
+
 function BindElements()
 {
     slcVrienden = document.querySelector("#slcVrienden");
@@ -37,7 +41,9 @@ function BindElements()
     btnVerwijder = document.querySelector("#btnVerwijder");
     divFeedback = document.querySelector("#divFeedBack");
 }
-
+/**
+ * Add the event listeners
+ */
 function addEvents()
 {
     btnNieuw.addEventListener("click",ResetForm);
@@ -46,83 +52,48 @@ function addEvents()
     slcVrienden.addEventListener("change",GetSelectedFriend);
 }
 
-
+/**
+ * gets the selected friend
+ */
 function GetSelectedFriend()
 {
-    let id = slcVrienden.options[slcVrienden.selectedIndex].value;
-    let selectedFriend = vrienden.find((friend) =>
-    {
-        return friend.Id == id;
-    });
-    FillForm(selectedFriend);
     
 }
-
+/**
+ * fills the form
+ * @param {*} selectedFriend 
+ */
 function FillForm(selectedFriend)
 {
-    lblId.innerHTML = selectedFriend.Id;
-    txtNaam.value = selectedFriend.Naam;
-    txtGeboortejaar.value = selectedFriend.Geboortejaar;
+  
 }
-
+/**
+ * loads the friends in the list
+ */
 function LoadFriendsInList()
 {
-    //divFeedback leegmaken
-    divFeedback.innerHTML = "";
-    //lijst leegmaken
-    slcVrienden.innerHTML = "";
-    //pas lengte lijst aan aan aantal vrienden
-    slcVrienden.size = vrienden.length;
-    //foreach met objectnotatie
-    vrienden.forEach(vriend => 
-        {
-            slcVrienden.options.add(new Option(`${vriend.Naam} °${vriend.Geboortejaar}`,`${vriend.Id}`));   
-        });
-    //vul de data van eerste vriend
-    if(vrienden.length > 0)
-        FillForm(vrienden[0]);
-    else
-        ResetForm();
+   
 }
-
+/**
+ * resets the form and calculates new id
+ */
 function ResetForm()
 {
-    txtGeboortejaar.value = "";
-    lblId.innerHTML = "";
-    txtNaam.value = "";
-    //Set the new Id
-    lblId.innerHTML = vrienden.length+1;
+   
 }
-
+/**
+ * Deletes a friend
+ */
 function DeleteFriend()
 {
-    let id = slcVrienden.options[slcVrienden.selectedIndex].value;
-    //verwijder element met filter methode
-    vrienden = vrienden.filter((friend) => 
-    {
-        return friend.Id != id;
-    })
-    LoadFriendsInList();
-    
+   
 }
-
+/**
+ * saves a friend
+ */
 function StoreFriend()
 {
-    //validate
-    if(!ValidateNewFriend())
-    {
-            return;
-    }
-    let newFriend = new Object();
-    newFriend.Id = lblId.innerHTML;
     
-    newFriend.Naam = txtNaam.value;
-    newFriend.Geboortejaar = txtGeboortejaar.value;
-    vrienden.push(newFriend);
-    LoadFriendsInList();
-    
-    //selecteer in lijst
-    slcVrienden.options[slcVrienden.length-1].selected = true;
 }
 
 /**
@@ -134,22 +105,7 @@ function StoreFriend()
  */
 function ValidateNewFriend()
 {
-    if(!CheckAge())
-    {
-        divFeedback.innerHTML = "Leeftijd is niet correct";
-        return false;
-    }
-    if(FriendExists())
-    {
-        divFeedback.innerHTML = "U hebt al een vriend met dit Id";
-        return false;
-    }
-    if(!CheckName())
-    {
-        divFeedback.innerHTML = "Naam moet min 3 karakters lang zijn!";
-        return false;
-    }
-    return true;
+   
 }
 
 /**
@@ -157,37 +113,17 @@ function ValidateNewFriend()
  */
 function CheckAge()
 {
-    let gebJaar = parseInt(txtGeboortejaar.value);
-    if(gebJaar > 2002 || gebJaar <= 1920 
-        || isNaN(gebJaar))
-    {
-        return false;
-    }
-    return true;
-    
 }
 /**
  * checks if friend already exists
  */
 function FriendExists()
 {
-    let newId = parseInt(lblId.innerHTML);
-    let friend = vrienden.find((friend) => 
-    {
-        return friend.Id == newId;
-    });
-    if(friend)
-    {
-        return true;
-    }
-    return false;
+   
 }
 /**
  * checks length of name
  */
 function CheckName()
 {
-    if(txtNaam.value.length < 3)
-        return false;
-    return true;
 }
